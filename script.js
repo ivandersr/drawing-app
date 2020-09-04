@@ -11,6 +11,7 @@ const closePopup = () => {
 const createCanvas = () =>{
         const canvasDiv = document.querySelector("#canvasDiv");
         const canvas = document.createElement('canvas');
+        const undoBtn = document.getElementById('undo');
         const clearBtn=document.getElementById('clear');
         const saveBtn = document.getElementById('save');
         const blackBtn = document.querySelector('div[data-color="black"]');
@@ -34,6 +35,14 @@ const createCanvas = () =>{
                 paint=false;
         });
 
+        undoBtn.addEventListener('click', function(e) {
+          clickX.pop();
+          clickY.pop();
+          clickDrag.pop();
+          redrawAll();
+          
+        })
+
         canvas.setAttribute('id','canvas');
         canvas.setAttribute('width',canvasWidth);
         canvas.setAttribute('height',canvasHeight);
@@ -42,7 +51,7 @@ const createCanvas = () =>{
         canvasDiv.appendChild(canvas);
 
         if(typeof G_vmlCanvasManager != 'undefined') {
-                canvas = G_vmlCanvasManager.initElement(canvas);
+          canvas = G_vmlCanvasManager.initElement(canvas);
         }
         context = canvas.getContext("2d");
         context.fillStyle="#fff";
@@ -87,6 +96,28 @@ const createCanvas = () =>{
                   clickX.push(x);
                   clickY.push(y);
                   clickDrag.push(dragging);
+                  console.log(clickX.length, clickY.length);
+                }
+
+                function draw() {
+                  for(var i=0; i < clickX.length; i++) {		
+                    context.beginPath();
+                    if(clickDrag[i] && i){
+                      context.moveTo(clickX[i-1], clickY[i-1]);
+                    } else{
+                      context.moveTo(clickX[i]-1, clickY[i]);
+                    }
+                    context.lineTo(clickX[i], clickY[i]);
+                    context.closePath();
+                    
+                    context.strokeRect(clickX[0], clickY[0], clickX[i] - clickX[0], clickY[i] - clickY[0]);
+                    
+                     
+                  }
+                }
+
+                function drawLine() {
+                  
                 }
 
                 function redraw(){
@@ -97,18 +128,29 @@ const createCanvas = () =>{
                         context.lineJoin = "round";
                         context.lineWidth = 5;
                                               
-                        for(var i=0; i < clickX.length; i++) {		
-                          context.beginPath();
-                          if(clickDrag[i] && i){
-                            context.moveTo(clickX[i-1], clickY[i-1]);
-                           }else{
-                             context.moveTo(clickX[i]-1, clickY[i]);
-                           }
-                           context.lineTo(clickX[i], clickY[i]);
-                           context.closePath();
-                           context.stroke();
-                        }
+                        draw();
                       }
+
+                function redrawAll() {
+                  if(clickX.length==0){
+                    return;
+                  }
+
+                  context.clearRect(0,0,canvas.width,canvas.height);
+          
+                  for(var i=0;i<clickX.length;i++){
+                    if(clickDrag[i] || paint){
+                        context.beginPath();
+                        context.moveTo(clickX[i],clickY[i]);
+                    }
+                    context.lineTo(clickX[i], clickY[i]);
+                    if(!clickDrag[i] || (i==clickX.length-1)){
+                        context.strokeStyle = "#fff";
+                        context.stroke();
+                    }
+                  }
+                  context.stroke();
+                }
                       
                 saveBtn.addEventListener('click',()=>{
                       var dataURL = canvas.toDataURL('image/jpeg', 1.0);
@@ -118,8 +160,8 @@ const createCanvas = () =>{
 
 
                   canvas.addEventListener('mousedown',function(e){
-                    var mouseX = e.pageX - this.offsetLeft;
-                    var mouseY = e.pageY - this.offsetTop;
+                    // var mouseX = e.pageX - this.offsetLeft;
+                    // var mouseY = e.pageY - this.offsetTop;
                                   
                     paint = true;
                     addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
