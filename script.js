@@ -39,7 +39,7 @@ const createCanvas = () =>{
           clickX.pop();
           clickY.pop();
           clickDrag.pop();
-          redrawAll();
+          context.commit();
           
         })
 
@@ -99,7 +99,7 @@ const createCanvas = () =>{
                   console.log(clickX.length, clickY.length);
                 }
 
-                function draw() {
+                function draw(i) {
                   for(var i=0; i < clickX.length; i++) {		
                     context.beginPath();
                     if(clickDrag[i] && i){
@@ -107,7 +107,6 @@ const createCanvas = () =>{
                     } else{
                       context.moveTo(clickX[i]-1, clickY[i]);
                     }
-                    context.lineTo(clickX[i], clickY[i]);
                     context.closePath();
                     
                     context.strokeRect(clickX[0], clickY[0], clickX[i] - clickX[0], clickY[i] - clickY[0]);
@@ -117,7 +116,17 @@ const createCanvas = () =>{
                 }
 
                 function drawLine() {
-                  
+                  for(var i=0; i < clickX.length; i++) {
+
+                  }
+                }
+
+                function drawRect() {
+                  for(var i=0; i < clickX.length; i++){
+                    draw(i);
+                    
+                    context.strokeRect(clickX[0], clickY[0], clickX[i] - clickX[0], clickY[i] - clickY[0]);
+                  }
                 }
 
                 function redraw(){
@@ -128,7 +137,7 @@ const createCanvas = () =>{
                         context.lineJoin = "round";
                         context.lineWidth = 5;
                                               
-                        draw();
+                        drawRect();
                       }
 
                 function redrawAll() {
