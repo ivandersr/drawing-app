@@ -43,7 +43,10 @@ const createCanvas = () =>{
   var lineWidth = 5;
 
   clearBtn.addEventListener('click', () => {
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);  // Clears the canvas
+    context.fillStyle = '#fff'; 
+    context.fillRect(0,0,context.canvas.width, context.canvas.height);
+    
     clickX=[];
     clickY=[];
     clickDrag=[];
@@ -125,7 +128,8 @@ const createCanvas = () =>{
   function draw() {
     for(var i=0; i < clickX.length; i++) {
       if (tool === 'eraser') {
-        context.globalCompositeOperation = 'destination-out';
+        context.strokeStyle = '#fff';
+        context.globalCompositeOperation = 'lighten';
       } else {
         context.globalCompositeOperation = 'source-over';
       }
