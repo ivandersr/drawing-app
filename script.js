@@ -7,7 +7,7 @@ const closePopup = () => {
     outer.style.display = "none";
 }
 
-//creating a canvas
+// creating a canvas
 const createCanvas = () =>{
   const canvasDiv = document.querySelector("#canvasDiv");
   const canvas = document.createElement('canvas');
@@ -125,7 +125,7 @@ const createCanvas = () =>{
   function draw() {
     for(var i=0; i < clickX.length; i++) {
       if (tool === 'eraser') {
-        context.globalCompositeOperation = 'destination-out'
+        context.globalCompositeOperation = 'destination-out';
       } else {
         context.globalCompositeOperation = 'source-over';
       }
@@ -143,49 +143,23 @@ const createCanvas = () =>{
   }
 
   function redraw(){
-    // context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
-    // context.fillStyle='#fff';
-    // context.fillRect(0,0,context.canvas.width, context.canvas.height);
     context.strokeStyle = color;
     context.lineJoin = 'round';
     context.lineWidth = lineWidth;    
     draw();
   }
-
-  // function redrawAll() {
-  //   if(clickX.length==0){
-  //     return;
-  //   }
-
-  //   context.clearRect(0,0,canvas.width,canvas.height);
-
-  //   for(var i=0;i<clickX.length;i++){
-  //     if(clickDrag[i] || paint){
-  //       context.beginPath();
-  //       context.moveTo(clickX[i],clickY[i]);
-  //     }
-  //     context.lineTo(clickX[i], clickY[i]);
-  //     if(!clickDrag[i] || (i==clickX.length-1)){
-  //       context.strokeStyle = "#fff";
-  //       context.stroke();
-  //     }
-  //   }
-  //   context.stroke();
-  // }
         
   saveBtn.addEventListener('click', () => {
     var dataURL = canvas.toDataURL('image/jpg');
     let savedImg = document.getElementById('savedImg');
     savedImg.setAttribute('src',dataURL);
+
+    // If you wanna open the image in a new tab
     // var win = window.open();
     // win.document.write("<img src='"+canvas.toDataURL('image/png')+"' alt=''/>");
-
   });
 
-
   canvas.addEventListener('mousedown',function(e){
-    // var mouseX = e.pageX - this.offsetLeft;
-    // var mouseY = e.pageY - this.offsetTop;
     paint = true;
     addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
     redraw();
