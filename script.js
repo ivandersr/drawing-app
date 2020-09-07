@@ -15,7 +15,7 @@ const createCanvas = () =>{
   const clearBtn=document.getElementById('clear');
   const saveBtn = document.getElementById('save');
 
-  // color selection
+  // color selection modal
   const blackBtn = document.querySelector('div[data-color="black"]');
   const greenBtn = document.querySelector('div[data-color="green"]');
   const blueBtn = document.querySelector('div[data-color="blue"]');
@@ -26,6 +26,7 @@ const createCanvas = () =>{
   const brushBtn = document.getElementById('brush-tool');
   const eraserBtn = document.getElementById('eraser-tool');
   const toolLineWidth = document.getElementById('tool-line-width');
+  const toolColor = document.getElementById('tool-color');
 
   let canvasHeight = window.innerHeight-100;
   let canvasWidth  = window.innerWidth-100;
@@ -59,7 +60,12 @@ const createCanvas = () =>{
 
   toolLineWidth.addEventListener('change', () => {
     lineWidth = toolLineWidth.value;
-  })
+  });
+
+  toolColor.addEventListener('change', () => {
+    selectColor(toolColor.value);
+    toolColor.setAttribute('background-color', color);
+  });
 
   canvas.setAttribute('id','canvas');
   canvas.setAttribute('width',canvasWidth);
@@ -122,8 +128,8 @@ const createCanvas = () =>{
         context.globalCompositeOperation = 'destination-out'
       } else {
         context.globalCompositeOperation = 'source-over';
-        
       }
+
       context.beginPath();
       if(clickDrag[i] && i){
         context.moveTo(clickX[i-1], clickY[i-1]);
@@ -167,7 +173,7 @@ const createCanvas = () =>{
   //   context.stroke();
   // }
         
-  saveBtn.addEventListener('click',()=>{
+  saveBtn.addEventListener('click', () => {
     var dataURL = canvas.toDataURL('image/jpg');
     let savedImg = document.getElementById('savedImg');
     savedImg.setAttribute('src',dataURL);
@@ -180,7 +186,6 @@ const createCanvas = () =>{
   canvas.addEventListener('mousedown',function(e){
     // var mouseX = e.pageX - this.offsetLeft;
     // var mouseY = e.pageY - this.offsetTop;
-                  
     paint = true;
     addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
     redraw();
@@ -194,8 +199,7 @@ const createCanvas = () =>{
   });
 
   canvas.addEventListener('mouseup',function(e){
-      paint = false;
-    
+    paint = false;
   });
 
 

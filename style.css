@@ -100,3 +100,13 @@ body{
 [data-color=blue] {background-color:#006eff !important}
 [data-color=green] {background-color:#baff33 !important}
 [data-color=purple] {background-color:#b700ff !important}
+
+.tool-color-black {background-color: #000000}
+.tool-color-green {background-color: #baff33}
+.tool-color-red {background-color: #ff2b2b}
+.tool-color-purple {background-color: #b700ff}
+.tool-color-blue {background-color: #006eff}
+
+#tool-color {
+    background-color: #fff;
+}
