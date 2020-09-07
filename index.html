@@ -9,10 +9,25 @@
     <!--CODE TO BE WRITTEN HERE--->
     <!--creating a div for canvas where drawing is to be made-->
     <div id="canvasDiv"></div>
-   
-    <div class="button-aux">
-      <button id="undo">UNDO</button>
+
+    <div class="tools">
+      <button id="brush-tool">Line</button>
+      <button id="eraser-tool">Eraser</button>
+      <select id="tool-line-width">
+        <option value=5>5</option>
+        <option value=10>10</option> 
+        <option value=15>15</option>
+        <option value=50>50</option>
+      </select>
+      <select id="tool-color">
+        <option value='black' class='tool-color-black'>Black</option>
+        <option value='green' class='tool-color-green'>Green</option>
+        <option value='red' class='tool-color-red'>Red</option>
+        <option value='purple' class='tool-color-purple'>Purple</option>
+        <option value='blue' class='tool-color-blue'>Blue</option>
+      </select>
     </div>
+   
     <div class="button-bars">
       <button id="clear">CLEAR</button>
       <button id="save">SAVE</button>
