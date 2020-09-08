@@ -48,6 +48,11 @@ const createCanvas = () =>{
   var color = '#000000';
   var lineWidth = 5;
 
+  window.addEventListener('resize', () => {
+    canvasHeight = window.innerHeight - 100;
+    canvasWidth = window.innerWidth - 100;
+  })
+
   clearBtn.addEventListener('click', () => {
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);  // Clears the canvas
     context.fillStyle = '#fff'; 
@@ -66,7 +71,7 @@ const createCanvas = () =>{
     canvas.style.cursor="url(assets/pencil.png), auto"
 
   });
-
+  
   eraserBtn.addEventListener('click', () => {
     tool = 'eraser';
     eraserBtn.classList.add("active")

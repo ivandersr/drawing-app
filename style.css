@@ -36,16 +36,16 @@ p {
   align-content: center;
   margin: 32px auto;
   background-color: white;
-  width: 100%;
+  
 }
 
 #canvasDiv {
-  padding: 0 3%;
+  padding: 0 30px;
 }
 
 .wrapper {
   width: 100%;
-  padding: 0 3%;
+  padding: 0 42px;
 }
 
 .toolbox {
