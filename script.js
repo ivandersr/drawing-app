@@ -7,6 +7,12 @@ const closePopup = () => {
     outer.style.display = "none";
 }
 
+// Add class "active" for brushBtn when select the color
+const activeBrush = () => {
+  const brushBtn = document.getElementById('brush-tool');
+  brushBtn.classList.add("active")
+}
+
 // creating a canvas
 const createCanvas = () =>{
   const canvasDiv = document.querySelector("#canvasDiv");
@@ -55,10 +61,17 @@ const createCanvas = () =>{
 
   brushBtn.addEventListener('click', () => {
     tool = 'brush';
+    brushBtn.classList.add("active")
+    eraserBtn.classList.remove("active")
+    canvas.style.cursor="url(assets/pencil.png), auto"
+
   });
 
   eraserBtn.addEventListener('click', () => {
     tool = 'eraser';
+    eraserBtn.classList.add("active")
+    brushBtn.classList.remove("active")
+    canvas.style.cursor="url(assets/eraser.png), auto"
   });
 
   toolLineWidth.addEventListener('change', () => {
@@ -75,6 +88,9 @@ const createCanvas = () =>{
   canvas.setAttribute('height',canvasHeight);
   canvas.setAttribute('class','border');
   canvas.setAttribute('background-color','#cb3594');
+  canvas.setAttribute('style', 'cursor:url(assets/pencil.png), auto');
+
+  
   canvasDiv.appendChild(canvas);
 
   if(typeof G_vmlCanvasManager != 'undefined') {
@@ -86,6 +102,7 @@ const createCanvas = () =>{
 
   // changes the color state of the canvas based on box clicked in welcome modal
   function selectColor(newColor) {
+    activeBrush();
     switch(newColor) {
       case 'green':
         color = "#baff33";
@@ -132,6 +149,7 @@ const createCanvas = () =>{
         context.globalCompositeOperation = 'lighten';
       } else {
         context.globalCompositeOperation = 'source-over';
+        
       }
 
       context.beginPath();
@@ -157,6 +175,9 @@ const createCanvas = () =>{
     var dataURL = canvas.toDataURL('image/jpg');
     let savedImg = document.getElementById('savedImg');
     savedImg.setAttribute('src',dataURL);
+    savedImg.style.position="relative"
+    savedImg.style.width="auto"
+    savedImg.style.right="0"
 
     // If you wanna open the image in a new tab
     // var win = window.open();
@@ -165,13 +186,14 @@ const createCanvas = () =>{
 
   canvas.addEventListener('mousedown',function(e){
     paint = true;
-    addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
+    addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop+32);
+    
     redraw();
   });
 
   canvas.addEventListener('mousemove',function(e){
     if(paint) {
-      addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+      addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop +32, true);
       redraw();
     }          
   });
@@ -183,4 +205,7 @@ const createCanvas = () =>{
 
 }
 
+
 createCanvas();
+
+
