@@ -142,7 +142,6 @@ button:focus {
   color: #333;
   padding: 6px 32px;
   border: none;
-  /* margin:10px 30px; */
 }
 
 #save {
@@ -179,7 +178,6 @@ button:focus {
 
 #onstart-popup {
   position: fixed;
-  /* box-shadow: 0 0 50px; */
   top: 50px;
   display: block;
   width: 70%;

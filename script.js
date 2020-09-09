@@ -1,8 +1,8 @@
 console.log("starting the app!");
 
 const closePopup = () => {
-    var popup = document.querySelector("#onstart-popup");
-    var outer = document.querySelector("#outer-popup");
+    let popup = document.querySelector("#onstart-popup");
+    let outer = document.querySelector("#outer-popup");
     popup.style.display = "none";
     outer.style.display = "none";
 }
@@ -38,15 +38,15 @@ const createCanvas = () =>{
   let canvasWidth  = window.innerWidth-100;
 
   // coordinates arrays
-  var clickX = new Array();
-  var clickY = new Array();
-  var clickDrag = new Array();
+  let clickX = new Array();
+  let clickY = new Array();
+  let clickDrag = new Array();
 
   // context variables
-  var tool = 'brush';
-  var paint;
-  var color = '#000000';
-  var lineWidth = 5;
+  let tool = 'brush';
+  let paint;
+  let color = '#000000';
+  let lineWidth = 5;
 
   window.addEventListener('resize', () => {
     canvasHeight = window.innerHeight - 100;
@@ -106,7 +106,7 @@ const createCanvas = () =>{
   context.fillRect(0,0,context.canvas.width, context.canvas.height);
 
   // changes the color state of the canvas based on box clicked in welcome modal
-  function selectColor(newColor) {
+  const selectColor = (newColor) => {
     activeBrush();
     switch(newColor) {
       case 'green':
@@ -140,21 +140,19 @@ const createCanvas = () =>{
   purpleBtn.addEventListener('click', (event) => selectColor(event.target.dataset.color));
   redBtn.addEventListener('click', (event) => selectColor(event.target.dataset.color));
 
-  function addClick(x, y, dragging)
-  {
+  const addClick = (x, y, dragging) => {
     clickX.push(x);
     clickY.push(y);
     clickDrag.push(dragging);
   }
 
-  function draw() {
-    for(var i=0; i < clickX.length; i++) {
+  const draw = () => {
+    for(let i=0; i < clickX.length; i++) {
       if (tool === 'eraser') {
         context.strokeStyle = '#fff';
         context.globalCompositeOperation = 'lighten';
       } else {
-        context.globalCompositeOperation = 'source-over';
-        
+        context.globalCompositeOperation = 'source-over'; 
       }
 
       context.beginPath();
@@ -169,7 +167,7 @@ const createCanvas = () =>{
     context.stroke();
   }
 
-  function redraw(){
+  const redraw = () => {
     context.strokeStyle = color;
     context.lineJoin = 'round';
     context.lineWidth = lineWidth;    
@@ -177,7 +175,7 @@ const createCanvas = () =>{
   }
         
   saveBtn.addEventListener('click', () => {
-    var dataURL = canvas.toDataURL('image/jpg');
+    const dataURL = canvas.toDataURL('image/jpg');
     let savedImg = document.getElementById('savedImg');
     savedImg.setAttribute('src',dataURL);
     savedImg.style.position="relative"
@@ -189,21 +187,20 @@ const createCanvas = () =>{
     // win.document.write("<img src='"+canvas.toDataURL('image/png')+"' alt=''/>");
   });
 
-  canvas.addEventListener('mousedown',function(e){
+  canvas.addEventListener('mousedown', (e) => {
     paint = true;
-    addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop+32);
-    
+    addClick(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop+32);
     redraw();
   });
 
-  canvas.addEventListener('mousemove',function(e){
+  canvas.addEventListener('mousemove', (e) => {
     if(paint) {
-      addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop +32, true);
+      addClick(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop +32, true);
       redraw();
     }          
   });
 
-  canvas.addEventListener('mouseup',function(e){
+  canvas.addEventListener('mouseup', () => {
     paint = false;
   });
 
